@@ -424,7 +424,13 @@ class WP_Translitera {
      * @return void
      */
     public static function add_menu(): void {
-        add_options_page('WP Translitera', 'Translitera', 'activate_plugins', __FILE__, [self::class, 'main_settings']);
+        add_options_page(
+            'WP Translitera',
+            'Translitera',
+            'manage_options',
+            'wp-translitera-settings', // Заменяем __FILE__ на удобный slug
+            [self::class, 'main_settings']
+        );
     }
 
     /**
@@ -500,7 +506,9 @@ class WP_Translitera {
      * @return array
      */
     public static function add_plugin_settings_link(array $links): array {
-        $addLink = ['settings' => '<a href="options-general.php?page=wp-translitera%2Fwp-translitera">' . __('Settings', 'wp-translitera') . '</a>'];
+        $url = admin_url('options-general.php?page=wp-translitera-settings');
+        $settings_link = '<a href="' . esc_url($url) . '">' . __('Settings', 'wp-translitera') . '</a>';
+        $addLink = ['settings' => $settings_link];
         return $addLink + $links;
     }
 
